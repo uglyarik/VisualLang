@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeBlock — web-программирование</title>
-    <link rel="stylesheet" href="style (2).css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -35,15 +35,15 @@
                             <span>Переменные</span>
                         </div>
                         <div class="category-content">
-                            <div class="block-item" draggable="true">
-                                <div class="block-color" style="background-color: #00ff04;"></div>
+                            <div class="block-item" draggable="true" data-type="declare_vars">
+                                <div class="block-color" style="background-color: #4caf50;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Объявить переменные</span>
                                     <span class="block-desc">x, y, z</span>
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="declare_array">
                                 <div class="block-color" style="background: #66bb6a;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Объявить массив</span>
@@ -51,7 +51,7 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="variable">
                                 <div class="block-color" style="background: #7e57c2;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Переменная</span>
@@ -59,7 +59,7 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="array_element">
                                 <div class="block-color" style="background: #9575cd;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Элемент массива</span>
@@ -75,7 +75,7 @@
                             <span>Присваивание</span>
                         </div>
                         <div class="category-content">
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="assign">
                                 <div class="block-color" style="background: #2196f3;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Присвоить</span>
@@ -91,7 +91,7 @@
                             <span>Математика</span>
                         </div>
                         <div class="category-content">
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="math_number">
                                 <div class="block-color" style="background: #ff9800;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Число</span>
@@ -99,7 +99,7 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="math_arithmetic">
                                 <div class="block-color" style="background: #ffb74d;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Арифметика</span>
@@ -115,7 +115,7 @@
                             <span>Логика</span>
                         </div>
                         <div class="category-content">
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="logic_and">
                                 <div class="block-color" style="background: #9c27b0;"></div>
                                 <div class="block-info">
                                     <span class="block-title">И (AND)</span>
@@ -123,7 +123,7 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="logic_or">
                                 <div class="block-color" style="background: #ba68c8;"></div>
                                 <div class="block-info">
                                     <span class="block-title">ИЛИ (OR)</span>
@@ -131,7 +131,7 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="logic_not">
                                 <div class="block-color" style="background: #ce93d8;"></div>
                                 <div class="block-info">
                                     <span class="block-title">НЕ (NOT)</span>
@@ -139,11 +139,11 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="comparison">
                                 <div class="block-color" style="background: #ab47bc;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Сравнение</span>
-                                    <span class="block-desc">= != > < ≥ ≤ </span>
+                                    <span class="block-desc">= != > < ≥ ≤</span>
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
@@ -155,7 +155,7 @@
                             <span>Условия</span>
                         </div>
                         <div class="category-content">
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="if_block">
                                 <div class="block-color" style="background: #ef5350;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Если</span>
@@ -163,7 +163,7 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="else_block">
                                 <div class="block-color" style="background: #ef5350;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Иначе</span>
@@ -171,7 +171,7 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="if_else_block">
                                 <div class="block-color" style="background: #ef5350;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Если-Иначе</span>
@@ -187,7 +187,7 @@
                             <span>Циклы</span>
                         </div>
                         <div class="category-content">
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="while_loop">
                                 <div class="block-color" style="background: #ff7043;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Пока</span>
@@ -195,7 +195,7 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="for_loop">
                                 <div class="block-color" style="background: #ff8a65;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Для</span>
@@ -211,7 +211,7 @@
                             <span>Структуры</span>
                         </div>
                         <div class="category-content">
-                            <div class="block-item" draggable="true">
+                            <div class="block-item" draggable="true" data-type="begin_end">
                                 <div class="block-color" style="background: #607d8b;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Begin-End</span>
@@ -227,30 +227,26 @@
                 <div class="panel-header">
                     <h2><i class="fas fa-cubes"></i> Рабочая область</h2>
                     <div class="workspace-controls">
-                        <button class="btn btn-icon" onclick="window.workspaceScale = Math.min(1.5, (window.workspaceScale||1.2) + 0.1); document.getElementById('workspace').style.transform = 'scale('+window.workspaceScale+')'">
+                        <button class="btn btn-icon" onclick="window.zoomIn()">
                             <i class="fas fa-search-plus"></i>
                         </button>
-                        <button class="btn btn-icon" onclick="window.workspaceScale = Math.max(0.7, (window.workspaceScale||1.2) - 0.1); document.getElementById('workspace').style.transform = 'scale('+window.workspaceScale+')'">
+                        <button class="btn btn-icon" onclick="window.zoomOut()">
                             <i class="fas fa-search-minus"></i>
                         </button>
                     </div>
                 </div>
                 <div id="workspace" class="workspace">
-                    <div class="workspace-placeholder">
-                        <i class="fas fa-arrow-left"></i>
-                        <p>Перетащите блоки сюда</p>
-                    </div>
                 </div>
             </div>
             <div class="panel panel-right">
                 <div class="right-tabs">
-                    <button class="tab active">
+                    <button class="tab active" data-tab="variables">
                         <i class="fas fa-database"></i> Переменные
                     </button>
-                    <button class="tab">
+                    <button class="tab" data-tab="arrays">
                         <i class="fas fa-table"></i> Массивы
                     </button>
-                    <button class="tab">
+                    <button class="tab" data-tab="output">
                         <i class="fas fa-terminal"></i> Вывод
                     </button>
                 </div>
@@ -258,11 +254,46 @@
                 <div id="variables-tab" class="tab-content active">
                     <div class="panel-header">
                         <h3><i class="fas fa-dollar-sign"></i> Переменные</h3>
-                        <span>0</span>
+                        <span class="badge">0</span>
+                    </div>
+                    <div id="variables-list" class="variables-list">
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>Нет переменных</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="arrays-tab" class="tab-content">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-table"></i> Массивы</h3>
+                        <span class="badge">0</span>
+                    </div>
+                    <div id="arrays-list" class="variables-list">
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>Нет массивов</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="output-tab" class="tab-content">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-terminal"></i> Вывод</h3>
+                        <button class="btn btn-icon" onclick="window.clearOutput()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div id="output-content" class="output-content">
+                        <div class="empty-state">
+                            <i class="fas fa-play-circle"></i>
+                            <p>Нажмите "Запустить"</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="app.js"></script>
 </body>
 </html>
