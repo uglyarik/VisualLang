@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeBlock — web-программирование</title>
+    <title>CodeBlock - визуальное программирование</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap">
+    <link rel="stylesheet" href="dark-theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
         <header class="toolbar">
             <div class="logo">
-                <h4>VisualLang</h4>
+                <i class="fas fa-cubes"></i>
+                <span>CodeBlock</span>
             </div>
             <div class="toolbar-actions">
                 <button class="btn btn-primary" onclick="window.runCode()">
@@ -23,11 +25,13 @@
                 </button>
             </div>
         </header>
+
         <div class="main-container">
             <div class="panel panel-left">
                 <div class="panel-header">
                     <h2><i class="fas fa-puzzle-piece"></i> Блоки</h2>
                 </div>
+                
                 <div class="blocks-categories">
                     <div class="category">
                         <div class="category-header">
@@ -36,7 +40,7 @@
                         </div>
                         <div class="category-content">
                             <div class="block-item" draggable="true" data-type="declare_vars">
-                                <div class="block-color" style="background-color: #4caf50;"></div>
+                                <div class="block-color" style="background: #4caf50;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Объявить переменные</span>
                                     <span class="block-desc">x, y, z</span>
@@ -47,7 +51,7 @@
                                 <div class="block-color" style="background: #66bb6a;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Объявить массив</span>
-                                    <span class="block-desc">array[]</span>
+                                    <span class="block-desc">arr[5]</span>
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
@@ -63,12 +67,13 @@
                                 <div class="block-color" style="background: #9575cd;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Элемент массива</span>
-                                    <span class="block-desc">array[i]</span>
+                                    <span class="block-desc">arr[i]</span>
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
                         </div>
                     </div>
+
                     <div class="category">
                         <div class="category-header">
                             <i class="fas fa-equals"></i>
@@ -85,6 +90,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="category">
                         <div class="category-header">
                             <i class="fas fa-calculator"></i>
@@ -109,46 +115,24 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="category">
                         <div class="category-header">
                             <i class="fas fa-brain"></i>
                             <span>Логика</span>
                         </div>
                         <div class="category-content">
-                            <div class="block-item" draggable="true" data-type="logic_and">
-                                <div class="block-color" style="background: #9c27b0;"></div>
-                                <div class="block-info">
-                                    <span class="block-title">И (AND)</span>
-                                    <span class="block-desc">и</span>
-                                </div>
-                                <i class="fas fa-grip-lines block-drag"></i>
-                            </div>
-                            <div class="block-item" draggable="true" data-type="logic_or">
-                                <div class="block-color" style="background: #ba68c8;"></div>
-                                <div class="block-info">
-                                    <span class="block-title">ИЛИ (OR)</span>
-                                    <span class="block-desc">или</span>
-                                </div>
-                                <i class="fas fa-grip-lines block-drag"></i>
-                            </div>
-                            <div class="block-item" draggable="true" data-type="logic_not">
-                                <div class="block-color" style="background: #ce93d8;"></div>
-                                <div class="block-info">
-                                    <span class="block-title">НЕ (NOT)</span>
-                                    <span class="block-desc">не</span>
-                                </div>
-                                <i class="fas fa-grip-lines block-drag"></i>
-                            </div>
                             <div class="block-item" draggable="true" data-type="comparison">
                                 <div class="block-color" style="background: #ab47bc;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Сравнение</span>
-                                    <span class="block-desc">= != > < ≥ ≤</span>
+                                    <span class="block-desc">= ≠ > < ≥ ≤</span>
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
                         </div>
                     </div>
+
                     <div class="category">
                         <div class="category-header">
                             <i class="fas fa-code-branch"></i>
@@ -181,6 +165,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="category">
                         <div class="category-header">
                             <i class="fas fa-rotate"></i>
@@ -205,6 +190,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="category">
                         <div class="category-header">
                             <i class="fas fa-cubes"></i>
@@ -221,8 +207,26 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="category">
+                        <div class="category-header">
+                            <i class="fas fa-print"></i>
+                            <span>Вывод</span>
+                        </div>
+                        <div class="category-content">
+                            <div class="block-item" draggable="true" data-type="print">
+                                <div class="block-color" style="background: #26a69a;"></div>
+                                <div class="block-info">
+                                    <span class="block-title">Вывод</span>
+                                    <span class="block-desc">print</span>
+                                </div>
+                                <i class="fas fa-grip-lines block-drag"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="panel panel-center">
                 <div class="panel-header">
                     <h2><i class="fas fa-cubes"></i> Рабочая область</h2>
@@ -235,7 +239,13 @@
                         </button>
                     </div>
                 </div>
-                <div id="workspace" class="workspace">
+                <div class="workspace-container">
+                    <div id="workspace" class="workspace">
+                        <div class="workspace-placeholder">
+                            <i class="fas fa-arrow-left"></i>
+                            <p>Перетащите блоки сюда</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="panel panel-right">
@@ -292,8 +302,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  
     </div>
-    <script src="app.js"></script>
+    <script src="core.js"></script>
+    <script src="drag-drop.js"></script>
+    <script src="ui.js"></script>
 </body>
 </html>
