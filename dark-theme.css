@@ -97,6 +97,10 @@ body.dark-theme .body-container {
     background: var(--bg-hover);
 }
 
+body.dark-theme .body-container.drop-target {
+    background: rgba(129, 140, 248, 0.15);
+}
+
 body.dark-theme .var-item {
     background: var(--bg-hover);
 }
