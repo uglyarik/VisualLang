@@ -4,7 +4,7 @@ window.outputLog = [];
 
 let blockCounter = 0;
 let availableBlockIds = [];
-let workspaceScale = 1.0;
+let workspaceScale = 0.8;
 let draggingBlock = null;
 let dragOffset = { x: 0, y: 0 };
 let dropTarget = null;
@@ -39,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
     updateVariablesDisplay();
     updateArraysDisplay();
 });
+
+window.getVariable = function(name) {
+    return window.globalVariables[name] || 0;
+};
 
 function getNextBlockId() {
     if (availableBlockIds.length > 0) {
@@ -118,12 +122,14 @@ function deleteBlock(blockId) {
     if(document.querySelectorAll('.workspace-block').length === 0) {
         const workspace = document.getElementById('workspace');
         if(workspace) {
-            workspace.innerHTML = `
-                <div class="workspace-placeholder">
-                    <i class="fas fa-arrow-left"></i>
-                    <p>Перетащите блоки сюда</p>
-                </div>
+            workspace.innerHTML = '';
+            const placeholder = document.createElement('div');
+            placeholder.className = 'workspace-placeholder';
+            placeholder.innerHTML = `
+                <i class="fas fa-arrow-left"></i>
+                <p>Перетащите блоки сюда</p>
             `;
+            workspace.appendChild(placeholder);
         }
         availableBlockIds = [];
         blockCounter = 0;
@@ -137,12 +143,14 @@ function deleteBlock(blockId) {
 function clearWorkspace() {
     const workspace = document.getElementById('workspace');
     if(workspace) {
-        workspace.innerHTML = `
-            <div class="workspace-placeholder">
-                <i class="fas fa-arrow-left"></i>
-                <p>Перетащите блоки сюда</p>
-            </div>
+        workspace.innerHTML = '';
+        const placeholder = document.createElement('div');
+        placeholder.className = 'workspace-placeholder';
+        placeholder.innerHTML = `
+            <i class="fas fa-arrow-left"></i>
+            <p>Перетащите блоки сюда</p>
         `;
+        workspace.appendChild(placeholder);
     }
     
     window.globalVariables = {};
@@ -174,5 +182,34 @@ function runCode() {
     updateArraysDisplay();
 }
 
+function updateNestedBlockSize(block) {
+    if (!block) return;
+    
+    const parentSlot = block.parentElement;
+    if (!parentSlot) return;
+    
+    if (parentSlot.classList.contains('arithmetic-left') ||
+        parentSlot.classList.contains('arithmetic-right') ||
+        parentSlot.classList.contains('comp-left') ||
+        parentSlot.classList.contains('comp-right')) {
+        
+        block.style.width = '100%';
+        block.style.maxWidth = '100%';
+        block.style.margin = '0';
+        block.style.fontSize = '10px';
+        
+        const header = block.querySelector('.block-header');
+        if (header) {
+            header.style.padding = '2px 4px';
+        }
+        
+        const idSpan = block.querySelector('.block-id');
+        if (idSpan) {
+            idSpan.style.display = 'none';
+        }
+    }
+}
+
+window.updateNestedBlockSize = updateNestedBlockSize;
 window.__core__.getNextBlockId = getNextBlockId;
 window.__core__.getValueFromBlock = getValueFromBlock;

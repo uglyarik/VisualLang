@@ -63,6 +63,14 @@
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
+                            <div class="block-item" draggable="true" data-type="array">
+                                <div class="block-color" style="background: #5e35b1;"></div>
+                                <div class="block-info">
+                                    <span class="block-title">Массив</span>
+                                    <span class="block-desc">arr</span>
+                                </div>
+                                <i class="fas fa-grip-lines block-drag"></i>
+                            </div>
                             <div class="block-item" draggable="true" data-type="array_element">
                                 <div class="block-color" style="background: #9575cd;"></div>
                                 <div class="block-info">
@@ -122,6 +130,30 @@
                             <span>Логика</span>
                         </div>
                         <div class="category-content">
+                            <div class="block-item" draggable="true" data-type="logic_and">
+                                <div class="block-color" style="background: #9c27b0;"></div>
+                                <div class="block-info">
+                                    <span class="block-title">И (AND)</span>
+                                    <span class="block-desc">&&</span>
+                                </div>
+                                <i class="fas fa-grip-lines block-drag"></i>
+                            </div>
+                            <div class="block-item" draggable="true" data-type="logic_or">
+                                <div class="block-color" style="background: #ba68c8;"></div>
+                                <div class="block-info">
+                                    <span class="block-title">ИЛИ (OR)</span>
+                                    <span class="block-desc">||</span>
+                                </div>
+                                <i class="fas fa-grip-lines block-drag"></i>
+                            </div>
+                            <div class="block-item" draggable="true" data-type="logic_not">
+                                <div class="block-color" style="background: #ce93d8;"></div>
+                                <div class="block-info">
+                                    <span class="block-title">НЕ (NOT)</span>
+                                    <span class="block-desc">!</span>
+                                </div>
+                                <i class="fas fa-grip-lines block-drag"></i>
+                            </div>
                             <div class="block-item" draggable="true" data-type="comparison">
                                 <div class="block-color" style="background: #ab47bc;"></div>
                                 <div class="block-info">
@@ -201,7 +233,24 @@
                                 <div class="block-color" style="background: #607d8b;"></div>
                                 <div class="block-info">
                                     <span class="block-title">Begin-End</span>
-                                    <span class="block-desc">область видимости</span>
+                                    <span class="block-desc">группа блоков</span>
+                                </div>
+                                <i class="fas fa-grip-lines block-drag"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category">
+                        <div class="category-header">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Алгоритмы</span>
+                        </div>
+                        <div class="category-content">
+                            <div class="block-item" draggable="true" data-type="bubble_sort">
+                                <div class="block-color" style="background: #4361ee;"></div>
+                                <div class="block-info">
+                                    <span class="block-title">Сортировка пузырьком</span>
+                                    <span class="block-desc">bubble sort</span>
                                 </div>
                                 <i class="fas fa-grip-lines block-drag"></i>
                             </div>
@@ -237,9 +286,12 @@
                         <button class="btn btn-icon" onclick="window.zoomOut()">
                             <i class="fas fa-search-minus"></i>
                         </button>
+                        <button class="btn btn-icon" onclick="window.resetZoom()" title="Сбросить масштаб">
+                            <i class="fas fa-compress"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="workspace-container">
+                <div class="workspace-wrapper" id="workspace-wrapper">
                     <div id="workspace" class="workspace">
                         <div class="workspace-placeholder">
                             <i class="fas fa-arrow-left"></i>
@@ -248,6 +300,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="panel panel-right">
                 <div class="right-tabs">
                     <button class="tab active" data-tab="variables">
@@ -264,7 +317,7 @@
                 <div id="variables-tab" class="tab-content active">
                     <div class="panel-header">
                         <h3><i class="fas fa-dollar-sign"></i> Переменные</h3>
-                        <span class="badge">0</span>
+                        <span class="badge" id="variables-badge">0</span>
                     </div>
                     <div id="variables-list" class="variables-list">
                         <div class="empty-state">
@@ -277,7 +330,7 @@
                 <div id="arrays-tab" class="tab-content">
                     <div class="panel-header">
                         <h3><i class="fas fa-table"></i> Массивы</h3>
-                        <span class="badge">0</span>
+                        <span class="badge" id="arrays-badge">0</span>
                     </div>
                     <div id="arrays-list" class="variables-list">
                         <div class="empty-state">
@@ -305,7 +358,9 @@
         </div>  
     </div>
     <script src="core.js"></script>
+    <script src="blocks.js"></script>
     <script src="drag-drop.js"></script>
+    <script src="interpreter.js"></script>
     <script src="ui.js"></script>
 </body>
 </html>

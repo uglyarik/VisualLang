@@ -26,39 +26,40 @@ function initTabs() {
 }
 
 function initZoom() {
-    let scale = 1.0;
+    let scale = 0.8;
     
-    function updateWorkspaceSize() {
+    function updateZoom() {
         const workspace = document.getElementById('workspace');
-        const container = document.querySelector('.workspace-container');
+        if (!workspace) return;
         
-        if (!workspace || !container) return;
-        
-        const containerRect = container.getBoundingClientRect();
-        
-        workspace.style.width = containerRect.width + 'px';
-        workspace.style.height = containerRect.height + 'px';
         workspace.style.transform = `scale(${scale})`;
+        window.__core__.workspaceScale = scale;
     }
     
     window.zoomIn = function() {
-        scale = Math.min(2.0, scale + 0.2);
-        updateWorkspaceSize();
+        scale = Math.min(1.5, scale + 0.1);
+        updateZoom();
     };
     
     window.zoomOut = function() {
-        scale = Math.max(0.5, scale - 0.2);
-        updateWorkspaceSize();
+        scale = Math.max(0.3, scale - 0.1);
+        updateZoom();
     };
     
-    window.addEventListener('resize', updateWorkspaceSize);
-    setTimeout(updateWorkspaceSize, 100);
+    window.resetZoom = function() {
+        scale = 0.8;
+        updateZoom();
+    };
+    
+    setTimeout(updateZoom, 100);
     
     const zoomInBtn = document.querySelector('[onclick*="zoomIn"]');
     const zoomOutBtn = document.querySelector('[onclick*="zoomOut"]');
+    const resetZoomBtn = document.querySelector('[onclick*="resetZoom"]');
     
     if (zoomInBtn) zoomInBtn.onclick = window.zoomIn;
     if (zoomOutBtn) zoomOutBtn.onclick = window.zoomOut;
+    if (resetZoomBtn) resetZoomBtn.onclick = window.resetZoom;
 }
 
 function initVariablesDisplay() {
@@ -69,7 +70,7 @@ function initVariablesDisplay() {
         const vars = window.globalVariables || {};
         const count = Object.keys(vars).length;
         
-        const badge = document.querySelector('#variables-tab .badge');
+        const badge = document.getElementById('variables-badge');
         if (badge) badge.textContent = count;
         
         if (count === 0) {
@@ -93,7 +94,7 @@ function initArraysDisplay() {
         const arrays = window.globalArrays || {};
         const count = Object.keys(arrays).length;
         
-        const badge = document.querySelector('#arrays-tab .badge');
+        const badge = document.getElementById('arrays-badge');
         if (badge) badge.textContent = count;
         
         if (count === 0) {

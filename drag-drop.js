@@ -1,7 +1,11 @@
+let isResizing = false;
+let currentResizeBlock = null;
+let startResizeX, startResizeY, startWidth, startHeight;
+
 function initDragDrop() {
     initPaletteDrag();
     initWorkspaceDrag();
-}   
+}
 
 function initPaletteDrag() {
     document.querySelectorAll('.block-item[draggable="true"]').forEach(block => {
@@ -33,7 +37,6 @@ function initWorkspaceDrag() {
             const type = e.dataTransfer.getData('text/plain');
             const title = e.dataTransfer.getData('text/title');
             const color = e.dataTransfer.getData('text/color');
-            
             createBlockElement(type, title, color, e.clientX, e.clientY);
         }
     });
@@ -99,6 +102,73 @@ function initWorkspaceDrag() {
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
     });
+
+    workspace.addEventListener('mousedown', function(e) {
+        const block = e.target.closest('.workspace-block');
+        if (!block) return;
+        
+        const rect = block.getBoundingClientRect();
+        const isOnResizeCorner = (e.clientX > rect.right - 20 && e.clientY > rect.bottom - 20);
+        
+        if (isOnResizeCorner && !e.target.closest('.block-header') && !e.target.closest('input') && !e.target.closest('select') && !e.target.closest('button')) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            isResizing = true;
+            currentResizeBlock = block;
+            startResizeX = e.clientX;
+            startResizeY = e.clientY;
+            startWidth = block.offsetWidth;
+            startHeight = block.offsetHeight;
+            
+            block.classList.add('resizing');
+            
+            function onResizeMouseMove(e) {
+                if (!isResizing || !currentResizeBlock) return;
+                
+                e.preventDefault();
+                
+                const dx = e.clientX - startResizeX;
+                const dy = e.clientY - startResizeY;
+                
+                let newWidth = Math.max(150, startWidth + dx);
+                let newHeight = Math.max(80, startHeight + dy);
+                
+                const type = currentResizeBlock.dataset.type;
+                if (type === 'begin_end') {
+                    newWidth = Math.max(250, newWidth);
+                    newHeight = Math.max(150, newHeight);
+                } else if (type === 'for_loop') {
+                    newWidth = Math.max(280, newWidth);
+                    newHeight = Math.max(200, newHeight);
+                } else if (type === 'if_else_block') {
+                    newWidth = Math.max(280, newWidth);
+                    newHeight = Math.max(220, newHeight);
+                } else if (type === 'while_loop') {
+                    newWidth = Math.max(260, newWidth);
+                    newHeight = Math.max(160, newHeight);
+                }
+                
+                currentResizeBlock.style.width = newWidth + 'px';
+                currentResizeBlock.style.height = newHeight + 'px';
+            }
+            
+            function onResizeMouseUp(e) {
+                if (isResizing && currentResizeBlock) {
+                    currentResizeBlock.classList.remove('resizing');
+                }
+                
+                isResizing = false;
+                currentResizeBlock = null;
+                
+                document.removeEventListener('mousemove', onResizeMouseMove);
+                document.removeEventListener('mouseup', onResizeMouseUp);
+            }
+            
+            document.addEventListener('mousemove', onResizeMouseMove);
+            document.addEventListener('mouseup', onResizeMouseUp);
+        }
+    });
 }
 
 function createBlockElement(type, title, color, x, y) {
@@ -113,11 +183,32 @@ function createBlockElement(type, title, color, x, y) {
     block.id = blockId;
     block.dataset.type = type;
     
-    const rect = workspace.getBoundingClientRect();
+    const scale = window.__core__.workspaceScale || 0.8;
+    const wrapper = document.getElementById('workspace-wrapper');
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const scrollLeft = wrapper.scrollLeft;
+    const scrollTop = wrapper.scrollTop;
+    
     block.style.position = 'absolute';
-    block.style.left = (x - rect.left - 90) + 'px';
-    block.style.top = (y - rect.top - 30) + 'px';
-    block.style.width = type === 'for_loop' ? '300px' : '260px';
+    block.style.left = ((x - wrapperRect.left + scrollLeft) / scale - 70) + 'px';
+    block.style.top = ((y - wrapperRect.top + scrollTop) / scale - 20) + 'px';
+    
+    if (type === 'for_loop') {
+        block.style.width = '280px';
+        block.style.height = '200px';
+    } else if (type === 'begin_end') {
+        block.style.width = '250px';
+        block.style.height = '150px';
+    } else if (type === 'if_else_block') {
+        block.style.width = '280px';
+        block.style.height = '220px';
+    } else if (type === 'while_loop') {
+        block.style.width = '260px';
+        block.style.height = '160px';
+    } else {
+        block.style.width = '200px';
+        block.style.height = '120px';
+    }
     
     block.innerHTML = window.generateBlockHTML ? 
         window.generateBlockHTML(type, blockId, title, color) : 
@@ -127,9 +218,6 @@ function createBlockElement(type, title, color, x, y) {
     
     const placeholder = workspace.querySelector('.workspace-placeholder');
     if (placeholder) placeholder.remove();
-    if (window.initBlockHandlers) {
-        window.initBlockHandlers(block);
-    }
     
     return block;
 }
@@ -155,6 +243,8 @@ function getFallbackHTML(type, blockId, title, color) {
 }
 
 function startDrag(block, startLeft, startTop) {
+    if (isResizing) return;
+    
     block.classList.add('dragging');
     
     block.style.position = 'absolute';
@@ -167,14 +257,20 @@ function startDrag(block, startLeft, startTop) {
 }
 
 function onDrag(e, block) {
+    if (isResizing) return;
+    
     const workspace = document.getElementById('workspace');
-    const rect = workspace.getBoundingClientRect();
+    const wrapper = document.getElementById('workspace-wrapper');
+    const scale = window.__core__.workspaceScale || 0.8;
     
-    let x = e.clientX - rect.left - (block.offsetWidth / 2);
-    let y = e.clientY - rect.top - 20;
+    const scrollLeft = wrapper.scrollLeft;
+    const scrollTop = wrapper.scrollTop;
     
-    x = Math.max(0, Math.min(x, rect.width - block.offsetWidth));
-    y = Math.max(0, Math.min(y, rect.height - block.offsetHeight));
+    let x = e.clientX - wrapper.getBoundingClientRect().left + scrollLeft - (block.offsetWidth / 2);
+    let y = e.clientY - wrapper.getBoundingClientRect().top + scrollTop - 20;
+    
+    x = Math.max(0, x);
+    y = Math.max(0, y);
     
     block.style.left = x + 'px';
     block.style.top = y + 'px';
@@ -208,7 +304,8 @@ function findDropTarget(e) {
     for (let el of elements) {
         if (el.classList && (
             el.classList.contains('slot') ||
-            el.classList.contains('body-content')
+            el.classList.contains('body-content') ||
+            el.classList.contains('array-for-sort')
         )) {
             found = el;
             break;
@@ -232,12 +329,38 @@ function insertIntoContainer(block, container) {
     block.style.left = '0';
     block.style.top = '0';
     block.style.width = '100%';
-    block.style.margin = '4px 0';
+    block.style.margin = '2px 0';
+    block.style.maxWidth = '100%';
+    block.style.transform = 'none';
+    block.style.height = 'auto';
     
     const placeholder = container.querySelector('.placeholder');
     if (placeholder) placeholder.remove();
     
     container.appendChild(block);
+    
+    if (container.classList.contains('arithmetic-left') || 
+        container.classList.contains('arithmetic-right') ||
+        container.classList.contains('comp-left') || 
+        container.classList.contains('comp-right')) {
+        
+        block.style.fontSize = '10px';
+        
+        const header = block.querySelector('.block-header');
+        if (header) {
+            header.style.padding = '2px 4px';
+        }
+        
+        const body = block.querySelector('.block-body');
+        if (body) {
+            body.style.padding = '4px';
+        }
+        
+        const idSpan = block.querySelector('.block-id');
+        if (idSpan) {
+            idSpan.style.display = 'none';
+        }
+    }
 }
 
 window.initDragDrop = initDragDrop;
