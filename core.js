@@ -25,7 +25,6 @@ window.__core__ = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Система готова');
     
     if (window.initUI) window.initUI();
     if (window.initDragDrop) window.initDragDrop();
